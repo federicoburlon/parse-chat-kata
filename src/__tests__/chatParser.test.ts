@@ -62,4 +62,20 @@ describe('Tests for chat parser', () => {
     expect(result).toStrictEqual(expected)
   });
 
+  it('should cover Step 4 (date splitting)', () => {
+    const input = '14:24:32 Customer : Lorem ipsum dolor sit amet, consectetur adipiscing elit.14:26:15 Agent : Aliquam non cursus erat, ut blandit lectus.'
+    const expected: ChatData[] = [{
+      date: '14:24:32',
+      mention: '14:24:32 Customer : ',
+      sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      type: OutputWriterType.CUSTOMER
+    }, {
+      date: '14:26:15',
+      mention: '14:26:15 Agent : ',
+      sentence: 'Aliquam non cursus erat, ut blandit lectus.',
+      type: OutputWriterType.AGENT
+    }]
+    const result = parseChat(input)
+    expect(result).toStrictEqual(expected)
+  });
 })

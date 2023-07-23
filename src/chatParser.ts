@@ -1,29 +1,28 @@
 import {ChatData, InputWriterType, OutputWriterType} from "./models/Chat";
 
-const regex = /^(\d{2}:\d{2}:\d{2})\s+(?:Customer|Agent)\s+:\s+(.*)$/;
+const stringRegex = /^(Customer|Agent)\s+:\s+(.*\n*)$/;
+const dateRegex = /(\d{2}:\d{2}:\d{2})\s+/
 
 export const parseChat = (chat: string): ChatData[] => {
-  const chatLines = chat.split('\n')
+  const chatLines = chat.split(dateRegex)
+  chatLines.shift()
   const chatDataArray: ChatData[] = []
 
-  let lineNumber = 1
-  let isLastLine = false
-  chatLines.forEach( line => {
+  for (let i = 0; i < chatLines.length; i+=2) {
+    const date  = chatLines[i]
+    const line = chatLines[i+1]
 
-      isLastLine = lineNumber == chatLines.length
-
-      const match = line.match(regex);
+      const match = line.match(stringRegex);
 
       if (match) {
         const sentence = match[2]
-        const mention = line.replace(sentence, '')
-        const date = match[1]
-        const type = mention.includes(InputWriterType.CUSTOMER) ? OutputWriterType.CUSTOMER : OutputWriterType.AGENT;
+        const type = match[1].includes(InputWriterType.CUSTOMER) ? OutputWriterType.CUSTOMER : OutputWriterType.AGENT;
+        const mention = `${date} ${line.replace(sentence, '')}`
         const chatData: ChatData = {
           mention,
           date,
           type,
-          sentence: isLastLine ? sentence : `${sentence}\n`
+          sentence,
         }
 
         console.log(chatData, 'chatData found!')
@@ -32,7 +31,6 @@ export const parseChat = (chat: string): ChatData[] => {
       } else {
         console.error('We should never end up here hopefully')
       }
-    lineNumber++
-    })
+    }
   return chatDataArray
 }
