@@ -1,8 +1,3 @@
-export enum InputWriterType {
-  AGENT = 'Agent',
-  CUSTOMER = 'Customer'
-}
-
 export enum OutputWriterType {
   AGENT = 'agent',
   CUSTOMER = 'customer'

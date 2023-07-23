@@ -95,4 +95,21 @@ describe('Tests for chat parser', () => {
     const result = parseChat(input)
     expect(result).toStrictEqual(expected)
   });
+
+  it('should cover Step 6 (full name)', () => {
+    const input = '14:24:32 Luca Galasso : Lorem ipsum dolor sit amet, consectetur adipiscing elit.14:26:15 Emanuele Querzola : I received the package, ut blandit lectus.'
+    const expected: ChatData[] = [{
+      date: '14:24:32',
+      mention: '14:24:32 Luca Galasso : ',
+      sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      type: OutputWriterType.CUSTOMER
+    }, {
+      date: '14:26:15',
+      mention: '14:26:15 Emanuele Querzola : ',
+      sentence: 'I received the package, ut blandit lectus.',
+      type: OutputWriterType.AGENT
+    }]
+    const result = parseChat(input)
+    expect(result).toStrictEqual(expected)
+  });
 })
