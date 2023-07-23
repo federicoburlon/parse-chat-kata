@@ -1,4 +1,4 @@
-import {ChatData, WriterType} from "../models/Chat";
+import {ChatData, OutputWriterType} from "../models/Chat";
 import {parseChat} from "../chatParser";
 
 describe('Tests for chat parser', () => {
@@ -8,7 +8,7 @@ describe('Tests for chat parser', () => {
       date: '14:24:32',
       mention: '14:24:32 Customer : ',
       sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      type: WriterType.CUSTOMER
+      type: OutputWriterType.CUSTOMER
     }]
     const result = parseChat(input)
     expect(result).toStrictEqual(expected)
@@ -21,14 +21,15 @@ describe('Tests for chat parser', () => {
       date: '14:24:32',
       mention: '14:24:32 Customer : ',
       sentence: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n',
-      type: WriterType.CUSTOMER
+      type: OutputWriterType.CUSTOMER
     }, {
       date: '14:26:15',
       mention: '14:26:15 Agent : ',
       sentence: 'Aliquam non cursus erat, ut blandit lectus.',
-      type: WriterType.AGENT
+      type: OutputWriterType.AGENT
     }]
     const result = parseChat(input)
     expect(result).toStrictEqual(expected)
   });
+
 })
